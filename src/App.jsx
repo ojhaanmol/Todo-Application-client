@@ -6,23 +6,24 @@ function App() {
   const [getTodos,setTodos] = useState([]);
   const [error,setError] = useState(false);
   const [completedList, updatecompletedList] = useState([]);
-  
   const [getATodo,setTodo] = useState('');
+
   const postTodo = (event) => {
     event.preventDefault();
-    console.log(getATodo);
     fetch('http://localhost:3000/todo',{
       method: "POST",
-      header:{
+      headers:{
         "Content-Type":"application/json",
         "Access-Control-Allow-Origin":true
       },
-      body:{
-        todo:getATodo
-      }
+      body: JSON.stringify({ todo:getATodo  })
     })
     .then(response => response.json())
-    .then(todo => alert(`your todo is successfully submited ${todo.id}`))
+    .then(todo => {
+      alert(`your todo is successfully submited ${todo.id}`);
+      if (!todo.id)throw `error occoured in pusing todo to server!!!!`;
+      setTodos(...getTodos,getATodo)
+    })
     setTodo('');
   }
   const registerChangeInTodoInput = (event) => {

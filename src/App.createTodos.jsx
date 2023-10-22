@@ -8,13 +8,13 @@ function App() {
     console.log(getTodo);
     fetch('http://localhost:3000/todo',{
       method: "POST",
-      header:{
+      headers:{
         "Content-Type":"application/json",
         "Access-Control-Allow-Origin":true
       },
-      body:{
+      body: JSON.stringify({
         todo:getTodo
-      }
+      })
     })
     .then(response => response.json())
     .then(todo => alert(`your todo is successfully submited ${todo.id}`))
